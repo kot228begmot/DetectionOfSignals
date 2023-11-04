@@ -3,13 +3,14 @@ clear
 clc
 close all
 %%
-%file_path = get_file_path();
 file_path = get_file_path();
 L_signal = 5000;
+SNR = 200;
 half_of_L = floor(L_signal/2);
 [signal,fs] = get_signal_and_fs(file_path);
 signal = signal(1 : L_signal * 3 + half_of_L);%костыль, чтобы избежать обработку всего сигнала
-[main_signal, overlap_signal, count_of_signal] = cut_signal(signal,L_signal, half_of_L);
+[noise_signal] = add_noise(signal, SNR);
+[main_signal, overlap_signal, count_of_signal] = cut_signal(noise_signal,L_signal, half_of_L);
 all_signals_massive_main = [];
 all_signals_massive_overlap = [];
 for i= 1:count_of_signal
