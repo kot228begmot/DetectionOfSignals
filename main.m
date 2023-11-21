@@ -5,8 +5,8 @@ close all
 %%
 file_path = get_file_path();
 [signal,fs] = get_signal_and_fs(file_path);
-L_signal = 5000;
 SNR = 100;
+L_signal = 5000;
 half_of_L = floor(L_signal/2);
 signal = signal(1 : L_signal * 3 + half_of_L);
 [noise_signal] = add_noise(signal, SNR);

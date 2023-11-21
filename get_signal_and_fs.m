@@ -1,6 +1,3 @@
-%%‘айл должен представл€ть собой структуру, котора€ содержит только два
-%%параметра: непосредственно сигнал и частоту дискретизации. »м€ массива
-%%сигнала: signal, частоты дискретизации: fs
 function [signal, fs] = get_signal_and_fs(signal_file_path)
 if exist(signal_file_path, 'file') ==0
     msg='¬ указанной директории отсутствует файл';
@@ -14,7 +11,6 @@ end
 file = load(signal_file_path);
 %signal = file.s;
 %fs = file.Fs;
-
 signal = file.smatrf(:,3);
-fs = 306000000;%file.Fs;
+fs = 306000000;
 end 

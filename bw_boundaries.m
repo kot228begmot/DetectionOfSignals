@@ -20,7 +20,7 @@ function [object,coordinate] = bw_boundaries (border_detection)
                             first_pixel = [i,j];
                             k = k + 1;
                             a = 1;
-                            previous_pixel = [i,j-1];
+                            
                          break
                         end
                         if a==1
@@ -51,7 +51,7 @@ function [object,coordinate] = bw_boundaries (border_detection)
                         signal_broad(ii,jj) = 2;
                              if ii == first_pixel(1,1) && jj == first_pixel(1,2)
                              break;
-                                a=2;
+                                
                             end
         pixel(1,1) = ii;
         pixel(1,2) = jj;
@@ -59,7 +59,7 @@ function [object,coordinate] = bw_boundaries (border_detection)
         jj = j_last;
        step = circshift(step,+2);          
     end
-    if a==2;
+    if a==2
         break;
     end
 end
@@ -71,7 +71,7 @@ signal_broad_1(:,W+1)=[];
 
 object(1,k) = {signal_broad_1};
 signal_broad = imfill(signal_broad,'holes');
-[x,y] = find(signal_broad_1>0);% провести "отзеркаливание"
+[x,y] = find(signal_broad_1>0);
 
 coordinate.freq_low{1,k} = min(x);
 coordinate.freq_high{1,k} = max(x);
