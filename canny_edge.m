@@ -1,6 +1,4 @@
 function [object,coordinate] = canny_edge(d,sigma,threshold_max,threshold_min)
-option = 2; %1- новый, 2- старый
-razr = 20;%промежуток устранения разрывов
 matrix_filter = fspecial('gaussian', ceil(6*sigma)+1, sigma);
 img_svertka = conv2(d,matrix_filter,'same');
 [gx, gy] = gradient(img_svertka);
@@ -74,43 +72,20 @@ for i = 2:1:H-1
         end
     end
 end
-
-find_broad = sravn_hysteresis;
         
-find_broad(:,1)=[]; %снять после трассиррвки границ
-find_broad(:,W)=[];
-find_broad(1,:)=[];
-find_broad(H,:)=[];
+sravn_hysteresis(:,1)=[]; 
+sravn_hysteresis(:,W)=[];
+sravn_hysteresis(1,:)=[];
+sravn_hysteresis(H,:)=[];
         
-        
-if option == 1  
-    [E,R] = size(sravn_hysteresis);
-        for i = razr:1:E-razr%подумать как поправить принцип работы. Ухожу вверх
-            for ii = razr:1:R-razr
-                if sravn_hysteresis(i,ii) == 0%можно выкинуть проверку "вверх"
-                    if   sum(sravn_hysteresis(i,ii+1:ii+razr)) >= 1 | sum(sravn_hysteresis(i,ii+1:ii-razr)) >= 1 |...
-                            sum(sravn_hysteresis(i+1:i+razr,ii)) >= 1 | sum(sravn_hysteresis(i+1:i-razr,ii)) >= 1         
-                        find_broad(i,ii) = 1;          
-                    end
-                end
-            end
-        end
-
-        
-se = strel('rectangle',[25,13]); %создали прямоугольный элемент структурирования
-border_detection_1 = imerode(find_broad,se);
+se = strel('rectangle',[20,20]);
+matrix_filter_column = [1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;];
+matrix_filter_line = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+after_droad_1 = imdilate(sravn_hysteresis,matrix_filter_column,1);
+after_droad_1 = imdilate(after_droad_1,matrix_filter_line,1);
+after_droad = imerode(after_droad_1,se,1);
 se = strel('rectangle',[15,15]);
-border_detection = imopen(border_detection_1,se);
-else 
-    se = strel('rectangle',[20,20]);
-    matrix_filter_column = [1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;];
-    matrix_filter_line = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-    after_droad_1 = imdilate(find_broad,matrix_filter_column,1);
-    after_droad_1 = imdilate(after_droad_1,matrix_filter_line,1);%new
-    after_droad = imerode(after_droad_1,se,1);
-    se = strel('rectangle',[15,15]);
-    border_detection = imopen(after_droad,se);%сам процесс удаления 
-end
-% Отзеркалить изображения!
+border_detection = imopen(after_droad,se); 
+
 [object,coordinate] = bw_boundaries (border_detection);
 end

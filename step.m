@@ -27,13 +27,11 @@ xlabel ('Time')
 ylabel ('Frequency')
 axis xy
 
-
 figure()
 imagesc(time_range,freq_range,only_broad)
 xlabel ('Time')
 ylabel ('Frequency')
 axis xy
-
 
 [freq_step,Time_step,~] = size(d);
  T_for_sample = Time_step/fs;
@@ -44,9 +42,5 @@ for j = 1:length(object)
     estimation.time_start(j,:) = coordinate.time_start{1,j} * T_for_sample;
     estimation.time_stop(j,:) = coordinate.time_stop{1,j} * T_for_sample;  
 end
- 
-
-
-
 
 end
