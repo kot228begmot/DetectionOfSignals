@@ -12,9 +12,9 @@ if ext ~= ".mat"
     error(msg)
 end
 file = load(signal_file_path);
-signal = file.s;
-fs = file.Fs;
+%signal = file.s;
+%fs = file.Fs;
 
-%signal = file.smatrf(:,3);
-%fs = 306000000;%file.Fs;
+signal = file.smatrf(:,3);
+fs = 306000000;%file.Fs;
 end 
