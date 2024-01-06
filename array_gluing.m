@@ -1,4 +1,4 @@
-function [whole_signal] = array_gluing(main_signal, overlap_signal, signal_number,L_signal,srez)
+function [whole_signal] = array_gluing(main_signal, overlap_signal, signal_number,signal,srez,fs)
 overlap = [];
 whole_signal =  main_signal(:,1:length(main_signal(:,:,1)) - srez, 1);
 main = [];
